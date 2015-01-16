@@ -22,6 +22,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-google-cdn');
 	grunt.loadNpmTasks('grunt-devcode');
 	grunt.loadNpmTasks('grunt-auto-install');
+	grunt.loadNpmTasks('grunt-ng-annotate');
 
 
 	var corsMiddleware = function() {
@@ -276,7 +277,7 @@ module.exports = function (grunt) {
 
 		// Allow the use of non-minsafe AngularJS files. Automatically makes it
 		// minsafe compatible so Uglify does not destroy the ng references
-		ngmin: {
+		ngAnnotate: {
 			dist: {
 				files: [{
 					expand: true,
