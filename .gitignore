@@ -1,0 +1,12 @@
+.tmp/
+dist/
+node_modules/
+*.zip
+.DS_Store
+npm-debug.log
+.svn/
+*.sublime-project
+*.sublime-workspace
+bower_components
+*.codekit
+
