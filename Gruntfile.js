@@ -20,7 +20,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-inline');
 	grunt.loadNpmTasks('grunt-exec');
 	grunt.loadNpmTasks('grunt-google-cdn');
-	grunt.loadNpmTasks('grunt-devcode');
 	grunt.loadNpmTasks('grunt-auto-install');
 	grunt.loadNpmTasks('grunt-ng-annotate');
 
@@ -49,7 +48,7 @@ module.exports = function (grunt) {
 		watch: {
 			js: {
 				files: ['app/src/**/*.js'],
-				tasks: ['devcode:server','newer:jshint:all'],
+				tasks: ['newer:jshint:all'],
 				options: {
 					livereload: true
 				}
@@ -83,7 +82,7 @@ module.exports = function (grunt) {
 					'app/src/**/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
 					'app/src/{,*/}*.js'
 				],
-				tasks: ['devcode:server', 'livereload']
+				tasks: ['livereload']
 			}
 		},
 
@@ -381,51 +380,6 @@ module.exports = function (grunt) {
 			}
 		},
 
-		devcode :
-				{
-					options :
-					{
-						html: true,        // html files parsing?
-						js: true,          // javascript files parsing?
-						css: true,         // css files parsing?
-						clean: true,       // removes devcode comments even if code was not removed
-						block: {
-							open: 'devcode', // with this string we open a block of code
-							close: 'endcode' // with this string we close a block of code
-						},
-						dest: 'dist'       // default destination which overwrittes environment variable
-					},
-					test : {           // settings for task used with 'devcode:server'
-						options: {
-								source: '<%= yeoman.app %>/',
-								dest: '.tmp/',
-								env: 'development'
-						}
-					},
-					server : {           // settings for task used with 'devcode:server'
-						options: {
-								source: '<%= yeoman.app %>/',
-								dest: '.tmp/',
-								env: 'development'
-						}
-					},
-					distuat : {             // settings for task used with 'devcode:dist'
-						options: {
-								source: '.tmp/concat/scripts/',
-								dest: '.tmp/concat/scripts/',
-								env: 'uat'
-						}
-					},
-					distprod : {             // settings for task used with 'devcode:dist'
-						options: {
-								source: '.tmp/concat/scripts/',
-								dest: '.tmp/concat/scripts/',
-								env: 'production'
-						}
-					}
-				},
-
-
 		ngtemplates:  {
 			app:        {
 				src:      ['./**/views/**.html', './**/views/**/**.html'],
@@ -452,18 +406,6 @@ module.exports = function (grunt) {
 		},
 
 
-		exec: {
-			deploy_to_fundnet_uat: {
-				command: 'phantomjs ddeploy.js cms_config_uat.js cms_user_uat.js'
-			},
-			deploy_to_fundnet_prod: {
-				command: 'phantomjs ddeploy.js cms_config_prod.js cms_user_prod.js'
-			},
-			data: {
-				command: 'casperjs app/tests/data-test.js'
-			}
-		},
-
 		auto_install: {
 			local: {},
 			subdir: {
@@ -478,52 +420,7 @@ module.exports = function (grunt) {
 
 		pkg: grunt.file.readJSON('package.json'),
 
-		'string-replace': {
 
-			dev: {
-				files: [{
-					expand: true,
-					cwd: '.tmp/',
-					src: 'index.html',
-					dest: '.tmp/'
-				}],
-				options: {
-					replacements: [{
-						pattern: /\{\{ _images \}\}/ig,
-						replacement: ''
-					}]
-				}
-			},
-			uat: {
-				files: [{
-					expand: true,
-					cwd: 'dist/',
-					src: 'index.html',
-					dest: 'dist/'
-				}],
-				options: {
-					replacements: [{
-						pattern: /\{\{ _images \}\}/ig,
-						replacement: '_images'
-					}]
-				}
-			},
-			version: {
-				files: [{
-					expand: true,
-					cwd: 'dist/scripts',
-					src: '*.js',
-					dest: 'dist/scripts/'
-				}],
-				options: {
-					replacements: [{
-						pattern: /__VERSION__/g,
-						replacement: '<%= pkg.version %>'
-					}]
-				}
-			}
-
-		},
 		protractor: {
 			options: {
 				keepAlive: true,
@@ -545,10 +442,8 @@ module.exports = function (grunt) {
 			'clean:server',
 			'bower-install',
 			// 'less:development',
-			'devcode:server',
 			'concurrent:server',
 			'autoprefixer',
-			'string-replace:dev',
 			'connect:livereload',
 			'watch'
 		]);
@@ -564,33 +459,12 @@ module.exports = function (grunt) {
 		'clean:server',
 		'clean:dist',
 		'bower-install',
-		'devcode:test',
 		'ngtemplates',
 		'concurrent:test',
 		'autoprefixer',
 		'connect:test',
 		'karma:unit'
 	]);
-
-	grunt.registerTask('data-test', [
-		'auto_install',
-		'clean:server',
-		'bower-install',
-		'devcode:server',
-		'concurrent:server',
-		'autoprefixer',
-		'connect:livereload',
-		'exec:data'
-	]);
-
-	grunt.registerTask('ddeploy-uat', [
-		'exec:deploy_to_fundnet_uat'
-	]);
-
-	grunt.registerTask('ddeploy-prod', [
-		'exec:deploy_to_fundnet_prod'
-	]);
-
 
 	grunt.registerTask('build-uat', [
 		'auto_install',
@@ -604,18 +478,14 @@ module.exports = function (grunt) {
 		'autoprefixer',
 		'ngtemplates',
 		'concat',
-		'string-replace:version',
-		'devcode:distuat',
-		'ngmin',
+		'ngannotate',
 		'copy:dist',
 		'cdnify',
 		'cssmin',
 		'uglify',
 		'usemin',
 		'inline:dist',
-		'htmlmin',
-		'string-replace:uat',
-		'ddeploy-uat'
+		'htmlmin'
 	]);
 
 	grunt.registerTask('build-prod', [
@@ -630,18 +500,14 @@ module.exports = function (grunt) {
 		'autoprefixer',
 		'ngtemplates',
 		'concat',
-		'string-replace:version',
-		'devcode:distprod',
-		'ngmin',
+		'ngannotate',
 		'copy:dist',
 		'cdnify',
 		'cssmin',
 		'uglify',
 		'usemin',
 		'inline:dist',
-		'htmlmin',
-		'string-replace:uat',
-		'ddeploy-prod'
+		'htmlmin'
 	]);
 
 	grunt.registerTask('e2e-test', ['protractor:all']);
