@@ -2,5 +2,8 @@
 
 angular.module('walletApp')
 	.constant('Settings', {
-		currency: 'eur'
+		currency: 'EUR',
+		availableCurrencies: [
+			'EUR', 'USD', 'RUB'
+		]
 	});
