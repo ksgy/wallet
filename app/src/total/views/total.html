@@ -1,5 +1,6 @@
 <section>
 	<h2>Grand Total</h2>
-	<label>{{ Transactions.getTotal() }}</label>
+	<label ng-if="Transactions.getTotal() > 0">{{ Transactions.getTotal() }}</label>
+	<label ng-if="Transactions.getTotal() == 0">Potless :(</label>
 </section>
 

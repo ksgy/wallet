@@ -1,6 +1,6 @@
 <section>
 	<h2>Recent transactions</h2>
-	<table>
+	<table ng-if="Transactions.getRecent().length > 0">
 		<thead>
 			<tr>
 				<th>Action</th>
@@ -16,5 +16,7 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<p class="info" ng-if="Transactions.getRecent().length == 0">No transactions found.</p>
 </section>
 
