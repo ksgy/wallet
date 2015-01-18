@@ -371,31 +371,6 @@ module.exports = function (grunt) {
 			}
 		},
 
-		ngtemplates:  {
-			app:        {
-				src:      ['./**/views/**.html', './**/views/**/**.html'],
-				dest:     'app/src/app.templates.js',
-				options: {
-					prefix: '/',
-					//usemin: 'scripts/scripts.js',
-					module: 'walletApp',
-					url: function(url) {
-						return url.replace('./app/', ''); // fix for absolute path urls
-					},
-					htmlmin: {
-						collapseBooleanAttributes:      true,
-						collapseWhitespace:             true,
-						removeAttributeQuotes:          false,
-						removeComments:                 true,
-						removeEmptyAttributes:          false,
-						removeRedundantAttributes:      false,
-						removeScriptTypeAttributes:     true,
-						removeStyleLinkTypeAttributes:  true
-					}
-				}
-			}
-		},
-
 
 		auto_install: {
 			local: {},
@@ -450,7 +425,6 @@ module.exports = function (grunt) {
 		'clean:server',
 		'clean:dist',
 		'bower-install',
-		'ngtemplates',
 		'concurrent:test',
 		'autoprefixer',
 		'connect:test',
