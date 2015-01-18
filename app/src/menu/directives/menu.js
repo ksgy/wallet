@@ -5,6 +5,7 @@ angular.module('walletApp')
 		return {
 			templateUrl: '/src/menu/views/menu.html',
 			restrict: 'E',
+			controller: 'MenuMenuCtrl',
 			link: function postLink(scope, element, attrs) {
 
 			}

@@ -9,10 +9,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
+			<tr ng-repeat="transaction in Transactions.getRecent()">
+				<td>{{ transaction.action }}</td>
+				<td>{{ transaction.amount }}</td>
+				<td>{{ transaction.date }}</td>
 			</tr>
 		</tbody>
 	</table>

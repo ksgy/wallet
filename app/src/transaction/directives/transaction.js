@@ -5,6 +5,7 @@ angular.module('walletApp')
 		return {
 			templateUrl: '/src/transaction/views/transaction.html',
 			restrict: 'E',
+			controller: 'TransactionTransactionCtrl',
 			link: function postLink(scope, element, attrs) {
 
 			}

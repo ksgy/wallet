@@ -1,9 +1,10 @@
 <section>
 	<h2>Make a transaction</h2>
+	<p class="error">{{ error }}</p>
 	<p>
-		<input type="text">
-		<button type="button">Add</button>
-		<button type="button">Remove</button>
+		<input type="text" ng-model="amount">
+		<button type="button" ng-click="add()">Add</button>
+		<button type="button" ng-click="remove()">Remove</button>
 	</p>
 </section>
 
