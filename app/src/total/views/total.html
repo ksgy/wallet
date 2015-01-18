@@ -1,6 +1,10 @@
 <section>
 	<h2>Grand Total</h2>
-	<label ng-if="Transactions.getTotal() > 0"><i class="fa" ng-class="'fa-'+Settings.currency"></i>{{ Transactions.getTotal() }}</label>
+	<p>
+		<span>Show in:</span>
+		<select name="total" ng-model="Settings.currency" ng-options="currency for currency in Settings.availableCurrencies"></select>
+	</p>
+	<label ng-if="Transactions.getTotal() > 0"><i class="fa" ng-class="'fa-'+Settings.currency.toLowerCase()"></i>{{ Transactions.getTotal() }}</label>
 	<label ng-if="Transactions.getTotal() == 0">Potless :(</label>
 </section>
 
