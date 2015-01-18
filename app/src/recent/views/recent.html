@@ -10,9 +10,9 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="transaction in Transactions.getRecent()">
-				<td>{{ transaction.action }}</td>
-				<td>{{ transaction.amount }}</td>
-				<td>{{ transaction.date }}</td>
+				<td><i class="fa" ng-class="{ 'fa-plus-circle': transaction.action == 'add', 'fa-minus-circle': transaction.action == 'remove' }"></i></td>
+				<td>{{ transaction.amount }} {{ Settings.currency|uppercase }}</td>
+				<td>{{ transaction.date | date:medium }} ({{ transaction.date | date:'h:mm a' }})</td>
 			</tr>
 		</tbody>
 	</table>

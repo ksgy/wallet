@@ -4,6 +4,7 @@ angular.module('walletApp')
 	.service('Transactions', function Transactions() {
 
 		var Transactions = {};
+
 		var wallet = angular.fromJson(localStorage.getItem("wallet")) || [];
 		var total;
 
