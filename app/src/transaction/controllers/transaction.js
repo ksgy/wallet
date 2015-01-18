@@ -8,7 +8,7 @@ angular.module('walletApp')
 
 		$scope.add = function() {
 			if($scope.amount <= 0){
-				$scope.error = 'You can\'t add negative number!';
+				$scope.error = 'You can\'t add zero or negative number!';
 			} else {
 				Transactions.add($scope.amount);
 				$scope.error = '';
