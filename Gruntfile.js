@@ -22,6 +22,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-google-cdn');
 	grunt.loadNpmTasks('grunt-auto-install');
 	grunt.loadNpmTasks('grunt-ng-annotate');
+	grunt.loadNpmTasks('grunt-checkbranch');
 
 
 	// Define the configuration for all the tasks
@@ -431,41 +432,18 @@ module.exports = function (grunt) {
 		'karma:unit'
 	]);
 
-	grunt.registerTask('build-uat', [
+	grunt.registerTask('build', [
 		'auto_install',
 		'checkbranch:master',
-		'karma:deploy',
+		// 'karma:deploy',
 		'clean:dist',
 		'bower-install',
 		'useminPrepare',
 		'concurrent:dist',
 		// 'less:production',
 		'autoprefixer',
-		'ngtemplates',
 		'concat',
-		'ngannotate',
-		'copy:dist',
-		'cdnify',
-		'cssmin',
-		'uglify',
-		'usemin',
-		'inline:dist',
-		'htmlmin'
-	]);
-
-	grunt.registerTask('build-prod', [
-		'auto_install',
-		'checkbranch:master',
-		'karma:deploy',
-		'clean:dist',
-		'bower-install',
-		'useminPrepare',
-		'concurrent:dist',
-		// 'less:production',
-		'autoprefixer',
-		'ngtemplates',
-		'concat',
-		'ngannotate',
+		'ngAnnotate',
 		'copy:dist',
 		'cdnify',
 		'cssmin',
