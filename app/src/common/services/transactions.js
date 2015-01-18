@@ -4,42 +4,44 @@ angular.module('walletApp')
 	.service('Transactions', function Transactions() {
 
 		var Transactions = {};
+		var wallet = angular.fromJson(localStorage.getItem("wallet")) || [];
+		var total;
 
 		var updateTotal = function() {
+			total = 0;
 			localStorage.setItem("wallet", angular.toJson(wallet));
-			var total = 0;
 			for (var i = wallet.length - 1; i >= 0; i--) {
-				total += parseInt(wallet[i].amount);
+				if(wallet[i].action == 'add') {
+					total += parseInt(wallet[i].amount);
+				} else {
+					total -= parseInt(wallet[i].amount);
+				}
 			};
-			return total;
 		};
-		var wallet = localStorage.getItem("wallet", angular.fromJson(wallet)) || 0;
-		var total = updateTotal();
+
+		updateTotal();
 
 		Transactions.add = function(amount) {
-			if(amount > 0){
-				wallet.push({
-					amount: amount,
-					date: new Date(),
-					action: 'add'
-				});
-				updateTotal();
-			}
+			wallet.push({
+				amount: amount,
+				date: new Date(),
+				action: 'add'
+			});
+			updateTotal();
 		};
 
 		Transactions.remove = function(amount) {
-			if(total - amount >= 0) {
-				wallet.push({
-					amount: amount,
-					date: new Date(),
-					action: 'remove'
-				});
-				updateTotal();
-			}
+			wallet.push({
+				amount: amount,
+				date: new Date(),
+				action: 'remove'
+			});
+			updateTotal();
 		};
 
 		Transactions.reset = function() {
 			wallet = [];
+			total = 0;
 			localStorage.setItem("wallet", angular.toJson(wallet));
 		};
 
