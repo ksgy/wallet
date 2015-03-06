@@ -5,7 +5,7 @@ angular.module('walletApp')
 
 		$routeProvider
 			.when('/', {
-				templateUrl: '/src/common/views/main.html',
+				templateUrl: 'src/common/views/main.html',
 				controller: 'MainCtrl'
 			})
 
